@@ -1,15 +1,23 @@
-99.downto(1) do |number|
-  if number == 1
-    puts "1 bottle of beer on the wall, 1 bottle of beer."
-    puts "Take one down and pass it around, no more bottles of beer on the wall."
-  elsif number == 2
-    puts "2 bottles of beer on the wall, 2 bottles of beer."
-    puts "Take one down and pass it around, 1 bottle of beer on the wall."
-  else
-    puts "#{number} bottles of beer on the wall, #{number} bottles of beer."
-    puts "Take one down and pass it around, #{number - 1} bottles of beer on the wall."
-  end
+99.downto(0) do |number|
+  current_bottles = if number == 0
+                      'no more'
+                    else
+                      number
+                    end
+  action = if number == 0
+             'Go to the store and buy some more'
+           else
+             'Take one down and pass it around'
+           end
+  remaining_bottles = if number == 0
+                        99
+                      elsif number == 1
+                        'no more'
+                      else
+                        number - 1
+                      end
+
+  puts "#{current_bottles.to_s.capitalize} bottle#{'s' if number != 1} of beer on the wall, #{current_bottles} bottle#{'s' if number != 1} of beer."
+  puts "#{action}, #{remaining_bottles} bottle#{'s' if number != 2} of beer on the wall.\n\n"
 end
 
-puts "No more bottles of beer on the wall, no more bottles of beer."
-puts "Go to the store and buy some more, 99 bottles of beer on the wall."
