@@ -1,6 +1,8 @@
 class BottlesSong
+  MAX_BOTTLES = 99
+
   def self.build
-    99.downto(0) do |number|
+    MAX_BOTTLES.downto(0) do |number|
       builder = builder_for(number)
 
       puts "#{builder.current_bottles.capitalize} of beer on the wall, #{builder.current_bottles} of beer."
@@ -53,7 +55,7 @@ class BottlesSong
     end
 
     def remaining_bottles
-      '99 bottles'
+      "#{MAX_BOTTLES} bottles"
     end
   end
 
