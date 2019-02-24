@@ -1,5 +1,11 @@
 class BottlesSong
   MAX_BOTTLES = 99
+  BUILDER_KLASS_NAMES = {
+    0 => 'NoBottles',
+    1 => 'OneBottle',
+    2 => 'TwoBottles',
+    3..MAX_BOTTLES => 'MultipleBottles'
+  }
 
   def self.build
     MAX_BOTTLES.downto(0) do |number|
@@ -11,18 +17,9 @@ class BottlesSong
   end
 
   private_class_method def self.builder_for(number)
-    klass = case number
-            when 0
-              NoBottles
-            when 1
-              OneBottle
-            when 2
-              TwoBottles
-            else
-              MultipleBottles
-            end
+    klass_name = BUILDER_KLASS_NAMES.select { |number_of_bottles| number_of_bottles === number }.values.first
 
-    klass.new(number)
+    const_get(klass_name).new(number)
   end
 
   class BottleTemplate
