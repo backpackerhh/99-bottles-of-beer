@@ -1,27 +1,27 @@
-class BottlesSong
+class Bottles
   MAX_BOTTLES = 99
-  BUILDER_KLASS_NAMES = {
-    0 => 'NoBottles',
-    1 => 'OneBottle',
-    2 => 'TwoBottles',
-    3..MAX_BOTTLES => 'MultipleBottles'
+  VERSE_BUILDER_KLASS_NAMES = {
+    0 => 'NoBottlesVerse',
+    1 => 'OneBottleVerse',
+    2 => 'TwoBottlesVerse',
+    3..MAX_BOTTLES => 'MultipleBottlesVerse'
   }
 
-  def self.build
-    MAX_BOTTLES.downto(0).map { |number| builder_for(number) }.join("\n")
+  def self.build_song
+    MAX_BOTTLES.downto(0).map { |number| build_verses_for(number) }.join("\n")
   end
 
-  private_class_method def self.builder_for(number)
-    klass_name = BUILDER_KLASS_NAMES.select { |number_of_bottles| number_of_bottles === number }.values.first
-    builder = const_get(klass_name).new(number)
+  private_class_method def self.build_verses_for(number)
+    klass_name = VERSE_BUILDER_KLASS_NAMES.select { |number_of_bottles| number_of_bottles === number }.values.first
+    verse = const_get(klass_name).new(number)
 
     <<~TEXT
-      #{builder.current_bottles.capitalize} of beer on the wall, #{builder.current_bottles} of beer.
-      #{builder.action}, #{builder.remaining_bottles} of beer on the wall.
+      #{verse.current_bottles.capitalize} of beer on the wall, #{verse.current_bottles} of beer.
+      #{verse.action}, #{verse.remaining_bottles} of beer on the wall.
     TEXT
   end
 
-  class BottleTemplate
+  class VerseTemplate
     attr_reader :number
 
     def initialize(number)
@@ -41,7 +41,7 @@ class BottlesSong
     end
   end
 
-  class NoBottles < BottleTemplate
+  class NoBottlesVerse < VerseTemplate
     def current_bottles
       'no more bottles'
     end
@@ -55,7 +55,7 @@ class BottlesSong
     end
   end
 
-  class OneBottle < BottleTemplate
+  class OneBottleVerse < VerseTemplate
     def current_bottles
       '1 bottle'
     end
@@ -65,14 +65,14 @@ class BottlesSong
     end
   end
 
-  class TwoBottles < BottleTemplate
+  class TwoBottlesVerse < VerseTemplate
     def remaining_bottles
       '1 bottle'
     end
   end
 
-  class MultipleBottles < BottleTemplate
+  class MultipleBottlesVerse < VerseTemplate
   end
 end
 
-BottlesSong.build
+puts Bottles.build_song
