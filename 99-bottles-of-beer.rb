@@ -8,18 +8,17 @@ class BottlesSong
   }
 
   def self.build
-    MAX_BOTTLES.downto(0) do |number|
-      builder = builder_for(number)
-
-      puts "#{builder.current_bottles.capitalize} of beer on the wall, #{builder.current_bottles} of beer."
-      puts "#{builder.action}, #{builder.remaining_bottles} of beer on the wall.\n\n"
-    end
+    MAX_BOTTLES.downto(0).map { |number| builder_for(number) }.join("\n")
   end
 
   private_class_method def self.builder_for(number)
     klass_name = BUILDER_KLASS_NAMES.select { |number_of_bottles| number_of_bottles === number }.values.first
+    builder = const_get(klass_name).new(number)
 
-    const_get(klass_name).new(number)
+    <<~TEXT
+      #{builder.current_bottles.capitalize} of beer on the wall, #{builder.current_bottles} of beer.
+      #{builder.action}, #{builder.remaining_bottles} of beer on the wall.
+    TEXT
   end
 
   class BottleTemplate
