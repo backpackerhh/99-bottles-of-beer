@@ -60,6 +60,10 @@ class Bottles
       '1 bottle'
     end
 
+    def action
+      'Take it down and pass it around'
+    end
+
     def remaining_bottles
       'no more bottles'
     end
